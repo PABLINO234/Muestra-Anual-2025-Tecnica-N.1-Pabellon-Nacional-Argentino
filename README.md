@@ -14,7 +14,6 @@ Principales cambios implementados
   - Contador de actividades visibles.
   - Persistencia de filtros en `localStorage` para recordar la selección entre recargas.
 - Export:
-  - Generación de un Código QR que representa el cronograma filtrado.
   - Si la API de imágenes (Google Charts) no puede entregar el QR, se muestra un fallback con
     el JSON del cronograma visible y se permite descargar ese JSON.
 - Accesibilidad y usabilidad: roles ARIA básicos, `prefers-reduced-motion` respetado, modal que cierra con Esc o clic fuera.
@@ -54,10 +53,6 @@ python -m http.server 8000
 Qué probar manualmente
 - Abrir la página y comprobar que el cronograma aparece.
 - Activar/desactivar filtros "Informática" y "Automotor" — la selección debe persistir tras recargar la página.
-- Hacer clic en "Generar QR":
-  - Si la imagen se carga verás el QR en el modal y podrás descargar la imagen.
-  - Si la imagen no carga, verás un textarea con el JSON del cronograma visible y un enlace para descargar ese JSON.
-- Cerrar el modal con la X, con la tecla Esc o haciendo clic fuera del panel.
 
 Notas técnicas y recomendaciones
 --------------------------------
@@ -73,7 +68,6 @@ Cambios en el código (alta nivel)
   - Se añadió persistencia (`localStorage`) para filtros.
   - `renderSchedule()` ahora escribe los valores originales en `data-attributes` de cada fila, y `generateQR()` usa
     esos atributos para construir el payload JSON (evita concatenación de chips con el texto de la actividad).
-  - Modal del QR con mejoras: cierre con Esc, clic fuera, fallback JSON descargable.
 
 Si quieres que haga alguno de estos pasos adicionales, dímelo y lo implemento:
 - Generación de QR 100% offline (añadir librería local y reemplazar la llamada a Google Charts).
