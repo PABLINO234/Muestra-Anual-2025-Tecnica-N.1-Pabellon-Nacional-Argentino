@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muestra Institucional - E.E.S.T. N°1 Quilmes</title>
+  <!-- Google Fonts (Poppins + Montserrat) -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <!-- SECCIÓN IZQUIERDA: CRONOGRAMA -->
+    <section class="left">
+      <div class="banderines">
+        <div class="triangulo azul"></div>
+        <div class="triangulo azuloscuro"></div>
+        <div class="triangulo blanco"></div>
+        <div class="triangulo azul"></div>
+        <div class="triangulo azuloscuro"></div>
+      </div>
+
+      <div class="cronograma">
+        <h2>Cronograma de Actividades</h2>
+        <!-- Controles: filtros por tipo -->
+        <div class="filters" id="filters" aria-label="Filtrar actividades" role="toolbar">
+          <!-- botones generados por schedule.js -->
+        </div>
+
+        <!-- Contenedor para el cronograma renderizado por JavaScript (datos en schedule.js) -->
+        <div class="grid" id="schedule" role="list" aria-label="Cronograma de Actividades"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN DERECHA: PRESENTACIÓN -->
+    <section class="right">
+      <div class="overlay"></div>
+      <canvas id="particles" aria-hidden="true"></canvas>
+      <div class="content">
+     <!-- Nota: se elimina la referencia a log.webp porque no existe en el repositorio.
+       Si quieres servir WebP, añade un archivo `log.webp` y usa un <picture> con
+       <source type="image/webp"> para mejores resultados. -->
+     <img src="log.png" alt="Logo EEST N°1 Quilmes" class="logo"
+       loading="lazy"
+       decoding="async">
+        <h1 class="svg-title">
+          <svg viewBox="0 0 800 80" preserveAspectRatio="xMidYMid meet" class="title-svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="g1" x1="0%" x2="100%">
+                <stop offset="0%" stop-color="#00fff6"/><stop offset="50%" stop-color="#7a00ff"/><stop offset="100%" stop-color="#ff2d95"/>
+              </linearGradient>
+            </defs>
+            <text class="neon-text" x="50%" y="60%" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="46" fill="url(#g1)">Muestra Institucional</text>
+          </svg>
+        </h1>
+        <p class="escuela">Escuela de Educación Secundaria Técnica N°1</p>
+        <p class="ciudad">Quilmes</p>
+        <p class="lema">“Pabellón Nacional Argentino”</p>
+        <p class="fecha">13 y 14 de Noviembre de 2025</p>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    © 2024 E.E.S.T. N°1 Quilmes – “Pabellón Nacional Argentino”
+  </footer>
+
+  <script src="schedule.js"></script>
+</body>
+</html>
