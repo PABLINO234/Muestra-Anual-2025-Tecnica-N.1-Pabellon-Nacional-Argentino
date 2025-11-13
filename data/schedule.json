@@ -1,7 +1,7 @@
 {
   "13": [
     { "time": "8:00 hs", "activity": "Ingreso para armado de stand", "type": "general" },
-    { "time": "9:00 hs", "activity": "Apertura y Conmemoración por el fallecimiento de los directores -Rodriguez Ricardo y Copelo Mirta Maydeé", "type": "automotores" },
+    { "time": "9:00 hs", "activity": "Apertura y Conmemoración por el fallecimiento de los directores -Rodriguez Ricardo y Copelo Mirta Maydeé", "type": "general" },
     { "time": "9:45 hs", "activity": "Muestra ciclo superior Informática", "type": "informatica" },
     { "time": "11:00 hs", "activity": "2° puesta en marcha de motores (según anexo)", "type": "automotores" },
     { "time": "11:45 hs", "activity": "Recorridas de stand", "type": "other" },
