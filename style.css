@@ -156,7 +156,7 @@ body {
   text-shadow: 0 6px 20px rgba(0,255,246,0.06);
 }
 
-/* QR modal removed — QR feature deprecated in this build */
+/* (QR feature eliminado en esta versión) */
 
 /* chip de categoría dentro de la actividad (mejora visual) */
 .actividad .chip {

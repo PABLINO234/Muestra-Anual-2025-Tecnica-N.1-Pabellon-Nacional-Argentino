@@ -1,0 +1,33 @@
+{
+  "13": [
+    { "time": "8:00 hs", "activity": "Ingreso para armado de stand", "type": "general" },
+    { "time": "9:00 hs", "activity": "Apertura y puesta en marcha de motores (según anexo)", "type": "automotores" },
+    { "time": "9:45 hs", "activity": "Muestra ciclo superior Informática", "type": "informatica" },
+    { "time": "11:00 hs", "activity": "2° puesta en marcha de motores (según anexo)", "type": "automotores" },
+    { "time": "11:45 hs", "activity": "Recorridas de stand", "type": "other" },
+    { "time": "12:15 hs", "activity": "Receso", "type": "receso" },
+    { "time": "13:20 hs", "activity": "Puesta en marcha de motores", "type": "automotores" },
+    { "time": "14:05 hs", "activity": "Recorridas de stand", "type": "other" },
+    { "time": "15:20 hs", "activity": "2° puesta en marcha de motores", "type": "automotores" },
+    { "time": "16:05 hs", "activity": "Recorridas de stand", "type": "other" },
+    { "time": "17:15 hs", "activity": "Homenaje a ex Directivos Mirta Copelo y Ricardo Rodríguez", "type": "general" },
+    { "time": "17:35 hs", "activity": "Finalización de la jornada de muestra", "type": "general" },
+    { "time": "17:55 hs", "activity": "Ingreso de motores y limpieza de espacios (solo cargos)", "type": "other" }
+  ],
+
+  "14": [
+    { "time": "8:00 hs", "activity": "Ingreso a stands", "type": "general" },
+    { "time": "9:00 hs", "activity": "Apertura y puesta en marcha de motores (según anexo)", "type": "automotores" },
+    { "time": "9:45 hs", "activity": "Muestra ciclo superior Informática", "type": "informatica" },
+    { "time": "11:00 hs", "activity": "2° puesta en marcha de motores", "type": "automotores" },
+    { "time": "11:45 hs", "activity": "Ciclo básico prepara y retira trabajos exhibidos", "type": "other" },
+    { "time": "12:15 hs", "activity": "Ciclo básico liberados", "type": "general" },
+    { "time": "13:20 hs", "activity": "Puesta en marcha de motores", "type": "automotores" },
+    { "time": "14:05 hs", "activity": "Muestra ciclo superior Informática", "type": "informatica" },
+    { "time": "14:45 hs", "activity": "Puesta en marcha final con todos los motores", "type": "automotores" },
+    { "time": "16:00 hs", "activity": "Música en vivo con banda de 6°2°", "type": "other" },
+    { "time": "16:30 hs", "activity": "Guardado y acomodado de motores, talleres y laboratorios", "type": "other" },
+    { "time": "17:35 hs", "activity": "Finalización de la jornada de muestra", "type": "general" },
+    { "time": "17:55 hs", "activity": "Limpieza general y acomodado de mobiliarios (solo cargos)", "type": "other" }
+  ]
+}

@@ -1,62 +1,32 @@
 /*
  schedule.js
- ----------------
- Controla el render del cronograma, los filtros y la generación del QR.
+ 
+ Controla el render del cronograma, los filtros y la interacción del UI.
 
- - Los datos del cronograma están embebidos en la constante `schedule`.
-   Edita las entradas más abajo para actualizar horas/actividades.
+ - Los datos del cronograma se deben mantener exclusivamente en `data/schedule.json`.
  - Filtros disponibles: 'informatica' y 'automotores'. Otros tipos (general, other, receso)
    se muestran siempre.
  - El estado de los filtros se persiste en localStorage (clave: 'muestra_activeFilters_v1').
- - Generación de QR: se usa la API de Google Charts para generar una imagen QR. Si la
-   imagen no puede cargarse (bloqueo de red o política), se muestra un fallback con el
-   JSON del cronograma visible y se ofrece descargar ese JSON.
 
  Notas:
- - Evité dependencias externas; si prefieres generación offline del QR puedo añadir
-   una pequeña librería local (opcional).
- - Mantén las cadenas (time/activity) en el array `schedule` limpias — la UI añade
-   los chips visuales sin modificar los datos originales.
+ - No hay generación de QR en este build; todo código relacionado al QR ha sido removido.
+ - Mantén las cadenas (time/activity) en el JSON limpias — la UI añade los chips visuales sin modificar los datos originales.
 */
 
-// --- reemplazado: ahora usamos un objeto por día y cargamos desde data/schedule.json ---
-// Default fallback data (se usa si falla la carga remota)
-const DEFAULT_SCHEDULE_BY_DAY = {
-  13: [
-    { time: '9:00 hs', activity: 'Apertura de la Muestra', type: 'general' },
-    { time: '9:30 hs', activity: 'Informática - Presentación de Robótica', type: 'informatica' },
-    { time: '10:00 hs', activity: 'Automotores - Puesta en Marcha de Motores', type: 'automotores' },
-    { time: '10:30 hs', activity: 'XXXXXXXXXX', type: 'other' },
-    { time: '11:00 hs', activity: 'XXXXXXXXXX', type: 'other' },
-    { time: '11:30 hs', activity: 'Informática - Presentación de Robótica', type: 'informatica' },
-    { time: '12:00 hs', activity: 'Automotores - Puesta en Marcha de Motores', type: 'automotores' },
-    { time: '12:15 hs', activity: 'Cierre de Turno', type: 'general' },
-    { time: 'RECESO', activity: '', type: 'receso' }
-  ],
-  14: [
-    { time: '13:30 hs', activity: 'Apertura turno tarde', type: 'general' },
-    { time: '14:00 hs', activity: 'Informática - Presentación de Robótica', type: 'informatica' },
-    { time: '14:30 hs', activity: 'XXXXXXXXXX', type: 'other' },
-    { time: '15:00 hs', activity: 'XXXXXXXXXX', type: 'other' },
-    { time: '15:30 hs', activity: 'XXXXXXXXXX', type: 'other' },
-    { time: '16:00 hs', activity: 'Informática - Presentación de Robótica', type: 'informatica' },
-    { time: '16:30 hs', activity: 'Automotores - Puesta en Marcha de Motores', type: 'automotores' },
-    { time: '17:00 hs', activity: 'Cierre de la Jornada', type: 'general' }
-  ]
-};
+// Nota: los datos del cronograma ya NO están embebidos en este archivo.
+// Se deben colocar exclusivamente en `data/schedule.json`.
+// `scheduleByDay` se inicializa vacío y se rellena por `loadScheduleData()`.
+let scheduleByDay = {};
 
-// Aquí guardamos los datos cargados (por día)
-let scheduleByDay = { ...DEFAULT_SCHEDULE_BY_DAY };
-
-// Cargar JSON externo (data/schedule.json). Si falla, se usa DEFAULT_SCHEDULE_BY_DAY.
+// Cargar JSON externo (data/schedule.json). Si falla, dejamos el cronograma vacío
+// (no se mantienen datos de cronograma en el JS por requerimiento).
 async function loadScheduleData() {
   try {
     const res = await fetch('data/schedule.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const json = await res.json();
-    // validar estructura mínima: objeto con keys '13'/'14' que sean arrays
-    if (json && typeof json === 'object') {
-      // normalizar claves numéricas a Number
+    // validar y normalizar: debe ser un objeto donde cada clave (día) apunta a un array
+    if (json && typeof json === 'object' && !Array.isArray(json)) {
       const normalized = {};
       Object.keys(json).forEach(k => {
         const n = Number(k);
@@ -68,8 +38,8 @@ async function loadScheduleData() {
     }
     throw new Error('Formato JSON inválido');
   } catch (err) {
-    console.warn('schedule.js: no se pudo cargar data/schedule.json — usando fallback. ', err);
-    scheduleByDay = { ...DEFAULT_SCHEDULE_BY_DAY };
+    console.warn('schedule.js: no se pudo cargar data/schedule.json — cronograma vacío.', err);
+    scheduleByDay = {};
   }
 }
 
@@ -90,7 +60,7 @@ const DAY_KEY = 'muestra_selectedDay_v1';
 function saveSelectedDay(){ try{ localStorage.setItem(DAY_KEY, String(selectedDay)); }catch(e){} }
 function loadSelectedDay(){ try{ const s = localStorage.getItem(DAY_KEY); if (s) selectedDay = Number(s); }catch(e){} }
 
-function renderSchedule(activeFilters = null) {
+function renderSchedule(filters = null) {
   const container = document.getElementById('schedule');
   if (!container) return;
   container.innerHTML = '';
@@ -106,9 +76,12 @@ function renderSchedule(activeFilters = null) {
 
   // Nuevo: sacamos los items del día seleccionado
   const dayItems = Array.isArray(scheduleByDay[selectedDay]) ? scheduleByDay[selectedDay] : [];
+  // Asegurar que 'filters' sea un Set válido (si no se pasa, usamos todos los filtros por defecto)
+  if (!filters || !(filters instanceof Set)) filters = new Set(typeof FILTER_TYPES !== 'undefined' ? FILTER_TYPES.slice() : []);
+
   const filtered = dayItems.filter(s => {
     if (s.type === 'receso') return true;
-    if (s.type === 'informatica' || s.type === 'automotores') return activeFilters.size === 0 ? true : activeFilters.has(s.type);
+    if (s.type === 'informatica' || s.type === 'automotores') return filters.size === 0 ? true : filters.has(s.type);
     return true;
   });
 
@@ -284,7 +257,7 @@ function renderFilters() {
     container.appendChild(btn);
   });
 
-  // QR feature removed — botón eliminado intencionalmente
+  // (sin funcionalidad de QR en esta versión)
 
   // Inicializar day UI y filtros
   loadSelectedDay();
@@ -317,7 +290,7 @@ function updateCounter(){
   cnt.textContent = `${visible} actividad${visible === 1 ? '' : 'es'}`;
 }
 
-// QR feature removed. Function generateQR was removed intentionally.
+// (sin funcionalidad de QR en esta versión)
 
 // --- Inicialización: cargar JSON antes de renderizar filtros/cronograma ---
 if (document.readyState === 'loading') {
