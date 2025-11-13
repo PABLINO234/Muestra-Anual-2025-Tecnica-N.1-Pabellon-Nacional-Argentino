@@ -9,7 +9,6 @@
  - El estado de los filtros se persiste en localStorage (clave: 'muestra_activeFilters_v1').
 
  Notas:
- - No hay generación de QR en este build; todo código relacionado al QR ha sido removido.
  - Mantén las cadenas (time/activity) en el JSON limpias — la UI añade los chips visuales sin modificar los datos originales.
 */
 
@@ -19,7 +18,6 @@
 let scheduleByDay = {};
 
 // Cargar JSON externo (data/schedule.json). Si falla, dejamos el cronograma vacío
-// (no se mantienen datos de cronograma en el JS por requerimiento).
 async function loadScheduleData() {
   try {
     const res = await fetch('data/schedule.json', { cache: 'no-cache' });
